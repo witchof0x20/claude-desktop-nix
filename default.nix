@@ -2,20 +2,21 @@
 , stdenv
 , fetchurl
 , p7zip
+, libarchive
 , makeWrapper
-, electron
+, electron_33
 , makeDesktopItem
 , claude-native-binding
 }:
 
 let
   pname = "claude-desktop";
-  version = "0.7.8";
+  version = "0.7.9";
 
   # Source exe file
   src = fetchurl {
     url = "https://storage.googleapis.com/osprey-downloads-c02f6a0d-347c-492b-a752-3e0651722e97/nest-win-x64/Claude-Setup-x64.exe";
-    sha256 = "sha256-SOO1FkAfcOP50Z4YPyrrpSIi322gQdy9vk0CKdYjMwA="; # Add the hash after downloading once
+    sha256 = "sha256-raoKgJu55g7mmZ4K+eX7YWkXGHYVcFBm5qQWk+p9LE0="; # Add the hash after downloading once
   };
 
   desktopItem = makeDesktopItem {
@@ -30,7 +31,7 @@ in
 stdenv.mkDerivation rec {
   inherit pname version src;
 
-  nativeBuildInputs = [ p7zip makeWrapper ];
+  nativeBuildInputs = [ p7zip libarchive makeWrapper ];
 
   unpackPhase = ''
     # Create working directory
@@ -53,7 +54,7 @@ stdenv.mkDerivation rec {
     cp -r "$app_folder"/* $out/lib/${pname}
 
     # Create wrapper script
-    makeWrapper ${electron}/bin/electron $out/bin/${pname} \
+    makeWrapper ${lib.getExe electron_33} $out/bin/${pname} \
       --add-flags "$out/lib/${pname}/app.asar"
 
     # Install desktop item
