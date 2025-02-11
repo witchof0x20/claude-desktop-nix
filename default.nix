@@ -64,7 +64,9 @@ stdenv.mkDerivation rec {
     # Create wrapper script
     makeWrapper ${lib.getExe electron_33} $out/bin/${pname} \
       --add-flags $out/app.asar
-
+    # Make directory for icons
+    mkdir -p $out/share/icons/hicolor/48x48/apps
+    cp app/resources/TrayIconTemplate@2x.png $out/share/icons/hicolor/48x48/apps/claude-desktop.png 
     # Install desktop item
     mkdir -p $out/share/applications
     cp ${desktopItem}/share/applications/* $out/share/applications/
