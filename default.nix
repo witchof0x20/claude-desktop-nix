@@ -3,10 +3,11 @@
 , fetchurl
 , p7zip
 , libarchive
-, makeWrapper
 , electron_33
-, makeDesktopItem
+, asar
 , claude-native-binding
+, makeWrapper
+, makeDesktopItem
 }:
 
 let
@@ -31,7 +32,7 @@ in
 stdenv.mkDerivation rec {
   inherit pname version src;
 
-  nativeBuildInputs = [ p7zip libarchive makeWrapper ];
+  nativeBuildInputs = [ p7zip libarchive asar makeWrapper ];
 
   unpackPhase = ''
     # Create working directory
@@ -46,16 +47,23 @@ stdenv.mkDerivation rec {
     # Assuming your app files are in a specific folder after nupkg extraction
     # Adjust the path according to your nupkg structure
     app_folder="lib/net45/resources" # Example path
-    cp ${claude-native-binding}/lib/libclaude_native_binding.so $app_folder/app.asar.unpacked/node_modules/claude-native/claude-native-binding.node
+    cd $app_folder
+    cp ${claude-native-binding}/lib/libclaude_native_binding.so ./app.asar.unpacked/node_modules/claude-native/claude-native-binding.node
+    asar e ./app.asar app
+    mkdir -p app/resources
+    mv ./*.png app/resources/
+    mv ./*.ico app/resources/
+    sourceRoot=.
   '';
 
   installPhase = ''
     # Copy the application files
-    cp -r "$app_folder"/* $out/lib/${pname}
-
+    asar pack ./app $out/app.asar
+    cp -r ./app.asar.unpacked $out/app.asar.unpacked
+    
     # Create wrapper script
     makeWrapper ${lib.getExe electron_33} $out/bin/${pname} \
-      --add-flags "$out/lib/${pname}/app.asar"
+      --add-flags $out/app.asar
 
     # Install desktop item
     mkdir -p $out/share/applications
