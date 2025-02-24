@@ -8,5 +8,7 @@ jobs:
       - uses: nixbuild/nix-quick-install-action@v29
       - name: Check flake outputs
         run: nix flake check
-      - name: Build program 
+      - name: Build claude desktop 
         run: nix build .#claude-desktop
+      - name: Build claude code 
+        run: nix build .#claude-code
