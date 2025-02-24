@@ -14,6 +14,7 @@
       rec {
         packages.claude-native-binding = pkgs.callPackage ./claude-native-binding/default.nix { };
         packages.claude-desktop = pkgs.callPackage ./default.nix { claude-native-binding = packages.claude-native-binding; };
+        packages.claude-code = pkgs.callPackage ./claude-code/default.nix { }; 
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [ ];
           nativeBuildInputs = with pkgs; [
