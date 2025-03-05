@@ -52,6 +52,8 @@ stdenv.mkDerivation rec {
     mkdir -p app/resources
     mv ./*.png app/resources/
     mv ./*.ico app/resources/
+    mkdir app/resources/i18n
+    mv *.json app/resources/i18n/
     sourceRoot=.
   '';
 
