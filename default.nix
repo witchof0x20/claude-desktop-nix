@@ -12,12 +12,12 @@
 
 let
   pname = "claude-desktop";
-  version = "0.7.9";
+  version = "0.8.0";
 
   # Source exe file
   src = fetchurl {
     url = "https://storage.googleapis.com/osprey-downloads-c02f6a0d-347c-492b-a752-3e0651722e97/nest-win-x64/Claude-Setup-x64.exe";
-    sha256 = "sha256-raoKgJu55g7mmZ4K+eX7YWkXGHYVcFBm5qQWk+p9LE0="; # Add the hash after downloading once
+    sha256 = "sha256-nDUIeLPWp1ScyfoLjvMhG79TolnkI8hedF1FVIaPhPw=";
   };
 
   desktopItem = makeDesktopItem {
@@ -37,7 +37,6 @@ stdenv.mkDerivation rec {
   unpackPhase = ''
     # Create working directory
     mkdir -p $out/lib/${pname}
-    
     # Extract the exe
     7z x -y $src
 
