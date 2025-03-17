@@ -12,12 +12,12 @@
 
 let
   pname = "claude-desktop";
-  version = "0.8.0";
+  version = "0.8.1";
 
   # Source exe file
   src = fetchurl {
     url = "https://storage.googleapis.com/osprey-downloads-c02f6a0d-347c-492b-a752-3e0651722e97/nest-win-x64/Claude-Setup-x64.exe";
-    sha256 = "sha256-nDUIeLPWp1ScyfoLjvMhG79TolnkI8hedF1FVIaPhPw=";
+    sha256 = "sha256-9jtVhOQJzpW4nFevfTpNnv/L/xGrgKK9knAZIFExirA=";
   };
 
   desktopItem = makeDesktopItem {
