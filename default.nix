@@ -12,12 +12,12 @@
 
 let
   pname = "claude-desktop";
-  version = "0.8.1";
+  version = "0.9.1";
 
   # Source exe file
   src = fetchurl {
     url = "https://storage.googleapis.com/osprey-downloads-c02f6a0d-347c-492b-a752-3e0651722e97/nest-win-x64/Claude-Setup-x64.exe";
-    sha256 = "sha256-9jtVhOQJzpW4nFevfTpNnv/L/xGrgKK9knAZIFExirA=";
+    sha256 = "sha256-6o7IUPKLO4vKYCnb82B7rgfdfpQiQy6JLTiKj0appIw=";
   };
 
   desktopItem = makeDesktopItem {
@@ -41,6 +41,7 @@ stdenv.mkDerivation rec {
     7z x -y $src
 
     # Find and extract the nupkg (adjust the path as needed)
+    ls
     7z x -y AnthropicClaude-${version}-full.nupkg
     
     # Assuming your app files are in a specific folder after nupkg extraction
